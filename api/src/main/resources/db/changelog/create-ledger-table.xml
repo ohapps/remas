@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+    <changeSet id="1" author="craig">
+        <createTable tableName="ledger_category">
+            <column name="id" type="text">
+                <constraints nullable="false" />
+            </column>
+            <column name="created_date" type="timestamp">
+                <constraints nullable="false" />
+            </column>
+            <column name="updated_date" type="timestamp">
+                <constraints nullable="false" />
+            </column>
+            <column name="category" type="text">
+                <constraints nullable="false" />
+            </column>
+            <column name="transaction_type" type="text">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+        <addPrimaryKey tableName="ledger_category" columnNames="id" />
+
+        <createTable tableName="ledger">
+            <column name="id" type="text">
+                <constraints nullable="false" />
+            </column>
+            <column name="created_date" type="timestamp">
+                <constraints nullable="false" />
+            </column>
+            <column name="updated_date" type="timestamp">
+                <constraints nullable="false" />
+            </column>
+            <column name="user_id" type="text">
+                <constraints nullable="false" />
+            </column>
+            <column name="transaction_date" type="date" >
+                <constraints nullable="false" />
+            </column>
+            <column name="payor_payee" type="text">
+                <constraints nullable="false" />
+            </column>
+            <column name="description" type="text">
+                <constraints nullable="false" />
+            </column>
+            <column name="category_id" type="text">
+                <constraints nullable="false" />
+            </column>
+            <column name="amount" type="number">
+                <constraints nullable="false" />
+            </column>
+            <column name="check_no" type="text" />
+            <column name="property_id" type="text" />
+        </createTable>
+        <addPrimaryKey tableName="ledger" columnNames="id" />
+        <addForeignKeyConstraint baseTableName="ledger"
+                                 baseColumnNames="user_id"
+                                 constraintName="ledger_user_fk"
+                                 referencedTableName="app_user"
+                                 referencedColumnNames="id" />
+        <addForeignKeyConstraint baseTableName="ledger"
+                                 baseColumnNames="property_id"
+                                 constraintName="ledger_property_fk"
+                                 referencedTableName="property"
+                                 referencedColumnNames="id" />
+        <addForeignKeyConstraint baseTableName="ledger"
+                                 baseColumnNames="category_id"
+                                 constraintName="ledger_ledger_category_fk"
+                                 referencedTableName="ledger_category"
+                                 referencedColumnNames="id" />
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+    <include file="database-setup.xml" relativeToChangelogFile="true" />
+    <include file="create-market-table.xml" relativeToChangelogFile="true" />
+    <include file="add_parent_market_column.xml" relativeToChangelogFile="true" />
+    <include file="create-market-rent-table.xml" relativeToChangelogFile="true" />
+    <include file="create-property-table.xml" relativeToChangelogFile="true" />
+    <include file="create-offer-table.xml" relativeToChangelogFile="true" />
+    <include file="create-expense-table.xml" relativeToChangelogFile="true" />
+    <include file="create-rehab-estimate-table.xml" relativeToChangelogFile="true" />
+    <include file="create-property-note-table.xml" relativeToChangelogFile="true" />
+    <include file="create-ledger-table.xml" relativeToChangelogFile="true" />
+    <include file="create-travel-log-table.xml" relativeToChangelogFile="true" />
+    <include file="add-audit-columns.xml" relativeToChangelogFile="true" />
+    <include file="add-market-id-column-to-property.xml" relativeToChangelogFile="true" />
+</databaseChangeLog>

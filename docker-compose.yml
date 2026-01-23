@@ -1,0 +1,17 @@
+version: "3.3"
+services:
+  postgres:
+    container_name: "postgres-remas-db"
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: remas_user
+      POSTGRES_PASSWORD: remaspass
+      POSTGRES_DB: remas
+    ports:
+      - "5445:5432"
+    volumes:
+      - postgresdata:/var/lib/postgresql/data
+
+volumes:
+  postgresdata:

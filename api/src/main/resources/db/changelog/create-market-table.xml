@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+    <changeSet id="1" author="craig">
+        <createTable tableName="market">
+            <column name="id" type="text">
+                <constraints nullable="false" />
+            </column>
+            <column name="user_id" type="text">
+                <constraints nullable="false" />
+            </column>
+            <column name="description" type="text">
+                <constraints nullable="false" />
+            </column>
+            <column name="location_type" type="text">
+                <constraints nullable="false" />
+            </column>
+            <column name="location" type="text">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+        <addPrimaryKey tableName="market" columnNames="id" />
+        <addForeignKeyConstraint baseTableName="market" baseColumnNames="user_id" constraintName="market_user_fk"
+                                 referencedTableName="app_user"
+                                 referencedColumnNames="id" />
+
+        <createTable tableName="market_question">
+            <column name="id" type="text">
+                <constraints nullable="false" />
+            </column>
+            <column name="user_id" type="text">
+                <constraints nullable="false" />
+            </column>
+            <column name="question" type="text">
+                <constraints nullable="false" />
+            </column>
+            <column name="answer_type" type="text">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+        <addPrimaryKey tableName="market_question" columnNames="id" />
+        <addForeignKeyConstraint baseTableName="market_question" baseColumnNames="user_id" constraintName="market_question_fk"
+                                 referencedTableName="app_user"
+                                 referencedColumnNames="id" />
+
+        <createTable tableName="market_metric">
+            <column name="id" type="text">
+                <constraints nullable="false" />
+            </column>
+            <column name="market_id" type="text">
+                <constraints nullable="false" />
+            </column>
+            <column name="question_id" type="text">
+                <constraints nullable="false" />
+            </column>
+            <column name="metric_value" type="text">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+        <addPrimaryKey tableName="market_metric" columnNames="id" />
+        <addForeignKeyConstraint baseTableName="market_metric" baseColumnNames="market_id" constraintName="market_metric_market_fk"
+                                 referencedTableName="market"
+                                 referencedColumnNames="id" />
+        <addForeignKeyConstraint baseTableName="market_metric" baseColumnNames="question_id" constraintName="market_metric_question_fk"
+                                 referencedTableName="market_question"
+                                 referencedColumnNames="id" />
+    </changeSet>
+</databaseChangeLog>

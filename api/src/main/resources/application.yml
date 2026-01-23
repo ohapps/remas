@@ -1,0 +1,31 @@
+server:
+#  servlet.context-path: /api
+  shutdown: graceful
+
+management:
+#  server.port: 8081
+  endpoints.web.exposure.include: "health,info"
+  endpoint.health:
+    show-details: always
+    probes.enabled: true
+
+spring:
+  application:
+    name: remas-api
+  liquibase:
+    change-log: classpath:/db/changelog/master.xml
+    enabled: true
+
+app.config: "Config from property file"
+
+sentry:
+  dsn: https://a4a67dcc179b466c8278dccba91da967@o348873.ingest.sentry.io/5764270
+
+logging:
+  level:
+    org.zalando.logbook: trace
+
+logbook:
+  format.style: json
+  exclude:
+    - /actuator/**

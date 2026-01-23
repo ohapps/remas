@@ -1,0 +1,94 @@
+#include:
+#  - template: Code-Quality.gitlab-ci.yml
+#  - template: Security/Dependency-Scanning.gitlab-ci.yml  # https://gitlab.com/gitlab-org/gitlab/blob/master/lib/gitlab/ci/templates/Security/Dependency-Scanning.gitlab-ci.yml
+
+services:
+  - name: docker:dind
+    # explicitly disable tls to avoid docker startup interruption
+    command: [ "--tls=false" ]
+
+variables:
+  SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
+  GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
+  IMAGE_TAG: "us.gcr.io/${GCP_PROJECT_ID}/remas-api"
+  SERVICE_NAME: remas-api
+  # Instruct Testcontainers to use the daemon of DinD.
+  DOCKER_HOST: "tcp://docker:2375"
+  # Instruct Docker not to start over TLS.
+  DOCKER_TLS_CERTDIR: ""
+  # Improve performance with overlayfs.
+  DOCKER_DRIVER: overlay2
+
+stages:
+  - test
+  - build
+  - package
+  - deploy
+
+test:
+  image: maven:3-jdk-11
+  stage: test
+  script: "mvn test"
+  artifacts:
+    when: always
+    reports:
+      junit:
+        - target/surefire-reports/TEST-*.xml
+  only:
+    - merge_requests
+
+lint:
+  image: maven:3-jdk-11
+  stage: test
+  script: "mvn com.github.gantsign.maven:ktlint-maven-plugin:1.14.0:check"
+  only:
+    - merge_requests
+
+sonarcloud-check:
+  image: maven:3.6.3-jdk-11
+  stage: test
+  cache:
+    key: "${CI_JOB_NAME}"
+    paths:
+      - .sonar/cache
+  script:
+    - mvn verify sonar:sonar
+  only:
+    - merge_requests
+
+build:
+  image: maven:3-jdk-11
+  stage: build
+  script: "mvn -B -DskipTests clean package"
+  artifacts:
+    paths:
+      - target/*.jar
+  only:
+    - master
+
+package:
+  image: docker:19.03.12
+  stage: package
+  services:
+    - docker:19.03.12-dind
+  before_script:
+    - cat $GCP_KEY | docker login -u _json_key --password-stdin https://us.gcr.io
+    - docker info
+  script:
+    - docker build -t $IMAGE_TAG .
+    - docker push $IMAGE_TAG
+  only:
+    - master
+
+deploy:
+  stage: deploy
+  image: google/cloud-sdk
+  services:
+    - docker:dind
+  script:
+    - cat $GCP_KEY > gcloud-service-key.json # Google Cloud service accounts
+    - gcloud auth activate-service-account --key-file gcloud-service-key.json
+    - gcloud config set project $GCP_PROJECT_ID
+    - gcloud run deploy $SERVICE_NAME --image $IMAGE_TAG --region=us-central1 --platform managed --allow-unauthenticated
+  only:
+    - master

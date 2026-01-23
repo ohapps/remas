@@ -1,0 +1,26 @@
+spring:
+  datasource:
+    platform: postgres
+    url: jdbc:postgresql://localhost:5445/remas
+    username: remas_user
+    password: remaspass
+    hikari.maxLifetime: 30000
+
+  jpa:
+    hibernate.ddl-auto: none
+    show-sql: true
+    properties.hibernate.format_sql: true
+
+  security.oauth2.resourceserver.jwt:
+    issuer-uri: https://dev--hkrho7z.us.auth0.com/
+
+auth0:
+  audience: https://dev--hkrho7z.us.auth0.com/api/v2/
+
+#  boot:
+#    admin:
+#      client:
+#        url: http://localhost:8888
+
+logbook:
+  format.style: http

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml" />
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            <charset>utf8</charset>
+        </encoder>
+    </appender>
+
+    <appender name="SENTRY" class="io.sentry.logback.SentryAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+    </appender>
+
+    <appender name="loggly" class="ch.qos.logback.ext.loggly.LogglyAppender">
+        <endpointUrl>https://logs-01.loggly.com/inputs/b0843afb-7e95-448c-9917-6cc93e50b35c/tag/logback</endpointUrl>
+        <pattern>%d{"ISO8601", UTC}  %p %t %c{0}.%M - %m%n</pattern>
+    </appender>
+
+    <springProfile name="local">
+        <root level="info">
+            <appender-ref ref="CONSOLE" />
+        </root>
+    </springProfile>
+
+    <springProfile name="!local">
+        <root level="info">
+            <appender-ref ref="CONSOLE" />
+            <appender-ref ref="SENTRY" />
+            <appender-ref ref="loggly" />
+        </root>
+    </springProfile>
+</configuration>

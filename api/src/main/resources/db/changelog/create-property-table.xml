@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+    <changeSet id="1" author="craig">
+        <createTable tableName="property">
+            <column name="id" type="text">
+                <constraints nullable="false" />
+            </column>
+            <column name="user_id" type="text">
+                <constraints nullable="false" />
+            </column>
+            <column name="address" type="text">
+                <constraints nullable="false" />
+            </column>
+            <column name="city" type="text">
+                <constraints nullable="false" />
+            </column>
+            <column name="state" type="text">
+                <constraints nullable="false" />
+            </column>
+            <column name="zip_code" type="text">
+                <constraints nullable="false" />
+            </column>
+            <column name="units" type="number">
+                <constraints nullable="false" />
+            </column>
+            <column name="monthly_rent" type="number" />
+            <column name="arv" type="number" />
+            <column name="purchased" type="date" />
+            <column name="in_service" type="date" />
+            <column name="watchlist" type="boolean" />
+            <column name="listing_url" type="text" />
+            <column name="archived" type="boolean" />
+        </createTable>
+        <addPrimaryKey tableName="property" columnNames="id" />
+        <addForeignKeyConstraint baseTableName="property" baseColumnNames="user_id" constraintName="property_user_fk"
+                                 referencedTableName="app_user"
+                                 referencedColumnNames="id" />
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+    <changeSet id="1" author="craig">
+        <createTable tableName="property_note">
+            <column name="id" type="text">
+                <constraints nullable="false" />
+            </column>
+            <column name="property_id" type="text">
+                <constraints nullable="false" />
+            </column>
+            <column name="note" type="text">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+        <addPrimaryKey tableName="property_note" columnNames="id" />
+        <addForeignKeyConstraint baseTableName="property_note"
+                                 baseColumnNames="property_id"
+                                 constraintName="property_property_note_fk"
+                                 referencedTableName="property"
+                                 referencedColumnNames="id" />
+    </changeSet>
+    <changeSet id="2" author="craig">
+        <addColumn tableName="property_note">
+            <column name="created_date" type="timestamp">
+                <constraints nullable="false" />
+            </column>
+            <column name="updated_date" type="timestamp">
+                <constraints nullable="false" />
+            </column>
+        </addColumn>
+    </changeSet>
+</databaseChangeLog>

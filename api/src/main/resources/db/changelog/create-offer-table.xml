@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+    <changeSet id="1" author="craig">
+        <createTable tableName="offer">
+            <column name="id" type="text">
+                <constraints nullable="false" />
+            </column>
+            <column name="property_id" type="text">
+                <constraints nullable="false" />
+            </column>
+            <column name="description" type="text">
+                <constraints nullable="false" />
+            </column>
+            <column name="purchase_price" type="number">
+                <constraints nullable="false" />
+            </column>
+            <column name="cash_down" type="number">
+                <constraints nullable="false" />
+            </column>
+            <column name="loan_amount" type="number">
+                <constraints nullable="false" />
+            </column>
+            <column name="loan_years" type="number">
+                <constraints nullable="false" />
+            </column>
+            <column name="loan_rate" type="number">
+                <constraints nullable="false" />
+            </column>
+            <column name="mortgage_payment" type="number">
+                <constraints nullable="false" />
+            </column>
+            <column name="principal_pay_down" type="number">
+                <constraints nullable="false" />
+            </column>
+            <column name="closing_cost" type="number">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+        <addPrimaryKey tableName="offer" columnNames="id" />
+        <addForeignKeyConstraint baseTableName="offer" baseColumnNames="property_id" constraintName="property_offer_fk"
+                                 referencedTableName="property"
+                                 referencedColumnNames="id" />
+    </changeSet>
+    <changeSet id="2" author="craig">
+        <addColumn tableName="offer">
+            <column name="active" type="boolean" defaultValue="false">
+                <constraints nullable="false" />
+            </column>
+        </addColumn>
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+    <changeSet id="1" author="craig">
+        <createTable tableName="market_rent">
+            <column name="id" type="text">
+                <constraints nullable="false" />
+            </column>
+            <column name="market_id" type="text">
+                <constraints nullable="false" />
+            </column>
+            <column name="unit_type" type="text">
+                <constraints nullable="false" />
+            </column>
+            <column name="bedrooms" type="number">
+                <constraints nullable="false" />
+            </column>
+            <column name="bathrooms" type="number">
+                <constraints nullable="false" />
+            </column>
+            <column name="square_feet" type="number">
+                <constraints nullable="false" />
+            </column>
+            <column name="rent_low" type="number">
+                <constraints nullable="false" />
+            </column>
+            <column name="rent_high" type="number">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+        <addPrimaryKey tableName="market_rent" columnNames="id" />
+        <addForeignKeyConstraint baseTableName="market_rent" baseColumnNames="market_id" constraintName="market_rent_market_fk"
+                                 referencedTableName="market"
+                                 referencedColumnNames="id" />
+    </changeSet>
+</databaseChangeLog>
