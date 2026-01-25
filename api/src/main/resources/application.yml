@@ -19,7 +19,7 @@ spring:
 app.config: "Config from property file"
 
 sentry:
-  dsn: https://a4a67dcc179b466c8278dccba91da967@o348873.ingest.sentry.io/5764270
+  dsn: ${SENTRY_DSN:https://a4a67dcc179b466c8278dccba91da967@o348873.ingest.sentry.io/5764270}
 
 logging:
   level:

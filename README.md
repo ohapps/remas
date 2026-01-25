@@ -8,6 +8,7 @@ To run this project locally, you will need:
 - **Java 11** or higher (for the API)
 - **Node.js** (v14+ recommended) and **npm** (for the Web frontend)
 - **Docker** and **Docker Compose** (for the PostgreSQL database)
+- **fswatch** (optional, for API auto-recompile on macOS)
 
 ---
 
@@ -32,7 +33,13 @@ docker-compose up -d
     cd api
     ```
 2.  **Run the application:**
-    Use the `mvnw` wrapper to start the Spring Boot application with the `local` profile:
+    You can use the provided start script:
+    ```bash
+    ./start.sh
+    ```
+    *Note: The start script uses `fswatch` to monitor file changes and trigger automatic recompilation and restarts via Spring Boot DevTools.*
+
+    *Or manually via Maven (no auto-recompile):*
     ```bash
     ./mvnw spring-boot:run -Dspring-boot.run.profiles=local
     ```

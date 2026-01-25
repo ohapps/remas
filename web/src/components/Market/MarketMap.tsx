@@ -26,7 +26,7 @@ const MarketMap: React.FC<Props> = ({ market }) => {
   const [fallbackText, setFallbackText] = useState('');
 
   const loader = new Loader({
-    apiKey: 'AIzaSyD5OaUJ5-KBl-iIS0PIjNFusnt-rJm8imw',
+    apiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY || '',
     version: 'weekly',
   });
 

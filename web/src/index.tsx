@@ -14,7 +14,7 @@ import { ReactQueryDevtools } from 'react-query/devtools';
 import AlertProvider from './context/AlertProvider';
 
 Sentry.init({
-  dsn: 'https://797e03a579d448cbb83ed97d6ff9e273@o348873.ingest.sentry.io/5768862',
+  dsn: process.env.REACT_APP_SENTRY_DSN || 'https://797e03a579d448cbb83ed97d6ff9e273@o348873.ingest.sentry.io/5768862',
   environment: process.env.NODE_ENV,
 });
 
@@ -32,10 +32,10 @@ const queryClient = new QueryClient({
 ReactDOM.render(
   <Sentry.ErrorBoundary showDialog>
     <Auth0Provider
-      domain="dev--hkrho7z.us.auth0.com"
-      clientId="Fdx5o2wEpWgjgpbWeUwc9ZVMFn2eZsxR"
+      domain={process.env.REACT_APP_AUTH0_DOMAIN || ''}
+      clientId={process.env.REACT_APP_AUTH0_CLIENT_ID || ''}
       redirectUri={window.location.origin}
-      audience="https://dev--hkrho7z.us.auth0.com/api/v2/"
+      audience={process.env.REACT_APP_AUTH0_AUDIENCE || ''}
       scope="profile"
     >
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
