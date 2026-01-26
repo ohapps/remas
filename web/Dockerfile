@@ -13,6 +13,9 @@ ARG REACT_APP_AUTH0_CLIENT_ID
 ARG REACT_APP_AUTH0_AUDIENCE
 ARG REACT_APP_SENTRY_DSN
 
+# Fix for memory issues: Increase Node heap size
+ENV NODE_OPTIONS="--max-old-space-size=4096"
+
 RUN npm run build
 
 # Stage 2: Serve the application with Nginx

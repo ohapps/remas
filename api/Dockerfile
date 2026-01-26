@@ -1,6 +1,24 @@
-FROM openjdk:11
+# Stage 1: Build the application
+FROM amazoncorretto:17 AS build
+WORKDIR /app
+
+# Copy the maven wrapper and pom file
+COPY .mvn/ .mvn
+COPY mvnw pom.xml ./
+
+# Download dependencies (cached layer)
+RUN ./mvnw dependency:go-offline
+
+# Copy the source code and build the application
+COPY src ./src
+# Fix for Java 17 reflection issues during build
+ENV MAVEN_OPTS="--add-opens java.base/java.lang=ALL-UNNAMED"
+RUN ./mvnw package -DskipTests
+
+# Stage 2: Run the application
+FROM amazoncorretto:17
 VOLUME /tmp
-COPY target/*.jar app.jar
+COPY --from=build /app/target/*.jar app.jar
 EXPOSE 8080
 ENTRYPOINT ["java","-jar","/app.jar"]
 
