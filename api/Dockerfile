@@ -20,7 +20,7 @@ FROM amazoncorretto:17
 VOLUME /tmp
 COPY --from=build /app/target/*.jar app.jar
 EXPOSE 8080
-ENTRYPOINT ["java","-jar","/app.jar"]
+ENTRYPOINT ["sh", "-c", "env && java -jar /app.jar"]
 
 
 # docker build -t craighausner/decitrix-api .
