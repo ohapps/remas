@@ -2,8 +2,8 @@
 FROM node:16 AS build-stage
 WORKDIR /app
 COPY package*.json ./
-# For faster builds, use npm ci if package-lock exists
-RUN npm install
+# Use npm ci for reproducible builds from package-lock.json
+RUN npm ci
 COPY . .
 
 # Build Arguments for environment variables
