@@ -1,9 +1,9 @@
 # Stage 1: Build the application
 FROM node:16 AS build-stage
 WORKDIR /app
-COPY package*.json ./
-# Use npm ci for reproducible builds from package-lock.json
-RUN npm ci
+COPY package.json yarn.lock ./
+# Use yarn install --frozen-lockfile for reproducible builds from yarn.lock
+RUN yarn install --frozen-lockfile
 COPY . .
 
 # Build Arguments for environment variables
@@ -16,7 +16,7 @@ ARG REACT_APP_SENTRY_DSN
 # Fix for memory issues: Increase Node heap size
 ENV NODE_OPTIONS="--max-old-space-size=4096"
 
-RUN npm run build
+RUN yarn build
 
 # Stage 2: Serve the application with Nginx
 FROM nginx:1.15
