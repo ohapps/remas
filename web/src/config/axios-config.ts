@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const instance = axios.create({
-    baseURL: process.env.NODE_ENV === 'production' ? 'https://remas-api.ohapps.com' : 'http://localhost:8080'
+    baseURL: process.env.REACT_APP_API_URL
 });
 
 export const setAccessTokenHeader = (token: String) => {
